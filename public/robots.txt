@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /404/
+Disallow: /en/404/
+
+# Allow full page rendering resources
+Allow: /_astro/
+Allow: /favicon.svg
+Allow: /favicon.ico
+Allow: /foto-perfil.webp
+Allow: /cv.pdf
+Allow: /certificates/
+
+# Crawl budget optimization
+Crawl-delay: 10
+
+# Sitemaps
+Sitemap: https://ivanmesco.dev/sitemap-index.xml

@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import SobreMi from '../components/SobreMi.astro';
+import Habilidades from '../components/Habilidades.astro';
+import Proyectos from '../components/Proyectos.astro';
+import Certificaciones from '../components/Certificaciones.astro';
+import Contacto from '../components/Contacto.astro';
+import { portfolio, skills, projects, certifications } from '../data/portfolio.ts';
+import { translations } from '../data/translations.ts';
+
+const t = translations.es;
+---
+
+<BaseLayout title="Portafolio - Analista de Soporte Técnico en Lima, Perú" lang="es">
+  <Hero name={portfolio.name} title={portfolio.title} tagline={portfolio.tagline} t={t} />
+  <SobreMi about={portfolio.about} t={t} />
+  <Habilidades skills={skills} t={t} />
+  <Proyectos projects={projects} t={t} />
+  <Certificaciones certifications={certifications} t={t} />
+  <Contacto email={portfolio.email} phone={portfolio.phone} location={portfolio.location} linkedin={portfolio.linkedin} github={portfolio.github} t={t} />
+</BaseLayout>

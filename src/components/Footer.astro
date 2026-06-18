@@ -1,0 +1,15 @@
+---
+interface Props {
+  name: string;
+  t: typeof import('../data/translations.ts').translations.es;
+}
+
+const { name, t } = Astro.props;
+---
+
+<footer class="bg-gray-900 dark:bg-gray-950 text-gray-400 py-8">
+  <div class="max-w-6xl mx-auto px-4 text-center">
+    <p>&copy; {new Date().getFullYear()} {name}. {t.footer.rights}</p>
+    <p class="mt-2 text-sm">{t.footer.role}</p>
+  </div>
+</footer>

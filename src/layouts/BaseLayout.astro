@@ -1,0 +1,166 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { translations, type Lang } from '../data/translations.ts';
+import { portfolio } from '../data/portfolio.ts';
+import { portfolio as portfolioEn } from '../data/portfolio.en.ts';
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: Lang;
+}
+
+const { title, lang = 'es' } = Astro.props;
+const t = translations[lang];
+const p = lang === 'en' ? portfolioEn : portfolio;
+const name = p.name;
+const description = Astro.props.description ?? t.meta.description;
+const alternateLang = lang === 'es' ? 'en' : 'es';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const siteUrl = 'https://ivanshito138.github.io';
+const rel = Astro.url.pathname.slice(base.length) || '/';
+const canonicalPath = rel === '/404/' ? `${base}/404/` : rel === '/en/404/' ? `${base}/en/404/` : lang === 'en' ? `${base}/en/` : `${base}/`;
+const alternatePath = canonicalPath === `${base}/404/` ? `${base}/en/404/` : canonicalPath === `${base}/en/404/` ? `${base}/404/` : lang === 'es' ? `${base}/en/` : `${base}/`;
+const url = `${siteUrl}${canonicalPath}`;
+const canonicalUrl = `${siteUrl}${canonicalPath}`;
+const locale = lang === 'es' ? 'es_PE' : 'en_US';
+const alternateLocale = lang === 'es' ? 'en_US' : 'es_PE';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      name: p.name,
+      jobTitle: p.title,
+      description: description,
+      url: `${siteUrl}${base}/`,
+      email: p.email,
+      telephone: p.phone,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: p.location.split(', ')[0],
+        addressCountry: 'PE',
+      },
+      sameAs: [p.linkedin, p.github],
+      image: `${siteUrl}${base}/foto-perfil.webp`,
+    },
+    {
+      '@type': 'WebSite',
+      name: `${p.name} - ${p.title}`,
+      url: `${siteUrl}${base}/`,
+      description: description,
+      inLanguage: lang === 'es' ? 'es-PE' : 'en-US',
+      alternateName: [p.name, `${p.name} Portfolio`, `${p.name} Portafolio`],
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: lang === 'es' ? 'Inicio' : 'Home', item: canonicalUrl },
+      ],
+    },
+    {
+      '@type': 'Organization',
+      name: p.name,
+      url: `${siteUrl}${base}/`,
+      logo: `${siteUrl}${base}/favicon.svg`,
+      description: description,
+      sameAs: [p.linkedin, p.github],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: p.phone,
+        email: p.email,
+        contactType: 'technical support',
+        availableLanguage: [lang === 'es' ? 'Spanish' : 'English', lang === 'es' ? 'English' : 'Spanish'],
+      },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={t.meta.keywords} />
+    <meta name="author" content={name} />
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <script is:inline>
+      (function() {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = stored === 'dark' || (!stored && prefersDark);
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        }
+        document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme-loaded', '');
+      })();
+    </script>
+
+    <noscript>
+      <style>
+        @media (prefers-color-scheme: dark) {
+          html:not(.dark) {
+            background: #030712;
+            color: #f3f4f6;
+          }
+          body {
+            background-color: #030712;
+            color: #f3f4f6;
+          }
+        }
+      </style>
+    </noscript>
+
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hrefLang={alternateLang} href={lang === 'es' ? `${siteUrl}${base}/en/` : `${siteUrl}${base}/`} />
+    <link rel="alternate" hrefLang="x-default" href={`${siteUrl}${base}/`} />
+
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="icon" type="image/x-icon" href={`${base}/favicon.ico`} />
+    <link rel="apple-touch-icon" href={`${base}/foto-perfil.webp`} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={`${siteUrl}${base}/foto-perfil.webp`} />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="596" />
+    <meta property="og:image:alt" content={name} />
+    <meta property="og:site_name" content={name} />
+    <meta property="og:locale" content={locale} />
+    <meta property="og:locale:alternate" content={alternateLocale} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${base}/foto-perfil.webp`} />
+    <meta name="twitter:image:alt" content={name} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="prefetch" href={`${base}/cv.pdf`} />
+    <link rel="dns-prefetch" href="https://linkedin.com" />
+    <link rel="dns-prefetch" href="https://github.com" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+  <body class="bg-gray-50 text-gray-800 dark:bg-gray-950 dark:text-gray-100 transition-colors">
+    <Header name={name} lang={lang} t={t} />
+    <main>
+      <slot />
+    </main>
+    <Footer name={name} t={t} />
+  </body>
+</html>

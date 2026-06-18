@@ -1,0 +1,38 @@
+---
+interface Props {
+  about: { paragraph1: string; paragraph2: string };
+  t: typeof import('../data/translations.ts').translations.es;
+}
+
+const { about, t } = Astro.props;
+---
+
+<section id="sobre-mi" class="py-20 bg-white dark:bg-gray-900">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white font-heading">{t.about.title}</h2>
+    <div class="max-w-3xl mx-auto space-y-6 text-lg text-gray-600 dark:text-gray-300">
+      <p>{about.paragraph1}</p>
+      <p>{about.paragraph2}</p>
+      <div class="flex flex-wrap gap-4 pt-4">
+        <a href="#habilidades" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">→ {t.nav.skills}</a>
+        <a href="#proyectos" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">→ {t.nav.projects}</a>
+        <a href="#certificaciones" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">→ {t.nav.certifications}</a>
+        <a href="#contacto" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">→ {t.nav.contact}</a>
+      </div>
+    </div>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+      <div class="text-center p-6 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+        <p class="text-3xl font-bold text-blue-600 dark:text-blue-400">3+</p>
+        <p class="text-gray-600 dark:text-gray-400">{t.about.yearsExperience}</p>
+      </div>
+      <div class="text-center p-6 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+        <p class="text-3xl font-bold text-blue-600 dark:text-blue-400">500+</p>
+        <p class="text-gray-600 dark:text-gray-400">{t.about.ticketsResolved}</p>
+      </div>
+      <div class="text-center p-6 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+        <p class="text-3xl font-bold text-blue-600 dark:text-blue-400">95%</p>
+        <p class="text-gray-600 dark:text-gray-400">{t.about.satisfaction}</p>
+      </div>
+    </div>
+  </div>
+</section>
