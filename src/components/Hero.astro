@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import fotoPerfil from '../assets/foto-perfil.webp';
-import type { Lang } from '../data/translations.ts';
 
 interface Props {
   name: string;
@@ -14,30 +13,120 @@ const { name, title, tagline, t } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 text-white pt-20">
-  <div class="max-w-4xl mx-auto px-4 text-center">
-    <Image
-      src={fotoPerfil}
-      alt={`Photo of ${name}`}
-      widths={[160, 320]}
-      format="webp"
-      loading="eager"
-      fetchpriority="high"
-      class="w-40 h-40 rounded-full mx-auto mb-8 border-4 border-white/30 object-cover shadow-xl"
-    />
-    <p class="text-blue-200 dark:text-blue-300 text-lg mb-2">{title}</p>
-    <h1 class="text-4xl md:text-6xl font-bold mb-6 font-heading">{name}</h1>
-    <p class="text-xl md:text-2xl text-blue-100 dark:text-blue-200 mb-8 max-w-2xl mx-auto">{tagline}</p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="#proyectos" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 dark:bg-gray-100 dark:hover:bg-gray-200 transition-colors">
-        {t.hero.viewProjects}
-      </a>
-      <a href={`${base}/cv.pdf`} download class="bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors">
-        {t.hero.downloadCV}
-      </a>
-      <a href="#contacto" class="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors">
+<section class="min-h-screen pt-32 pb-20 px-4 md:px-8">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 grid-rows-auto md:grid-rows-2 gap-4 h-full">
+    
+    <!-- Welcome Tile -->
+    <div class="md:col-span-2 md:row-span-2 glass p-8 md:p-12 rounded-3xl flex flex-col justify-center reveal relative overflow-hidden group">
+      <div class="absolute -top-24 -left-24 w-64 h-64 bg-brand-cyan/20 blur-[100px] rounded-full group-hover:bg-brand-cyan/30 transition-colors"></div>
+      
+      <p class="text-brand-cyan font-bold tracking-widest uppercase text-sm mb-4 font-heading">{title}</p>
+      <h1 class="text-4xl md:text-7xl font-bold mb-6 font-heading leading-tight">
+        {name.split(' ').map((word, i) => (
+          <span class={i === 0 ? "text-white" : "bg-gradient-to-r from-brand-cyan to-brand-indigo bg-clip-text text-transparent block md:inline"}>{word} </span>
+        ))}
+      </h1>
+      
+      <div class="flex items-center gap-2 text-xl text-gray-400 font-mono">
+        <span class="text-brand-cyan font-bold">></span>
+        <p class="animate-typing border-r-2 border-brand-cyan pr-1">{tagline}</p>
+      </div>
+    </div>
+
+    <!-- Avatar Tile -->
+    <div class="md:col-span-1 md:row-span-2 glass rounded-3xl p-4 flex flex-col items-center justify-center reveal [transition-delay:100ms] group relative overflow-hidden">
+      <div class="absolute inset-0 bg-brand-indigo/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      
+      <div class="relative w-48 h-48 md:w-64 md:h-64 mb-6">
+        <!-- Rotating Dashed Border -->
+        <div class="absolute inset-0 border-2 border-dashed border-brand-cyan/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
+        <div class="absolute inset-2 border border-brand-indigo/20 rounded-full"></div>
+        
+        <Image
+          src={fotoPerfil}
+          alt={`Photo of ${name}`}
+          widths={[320, 640]}
+          format="webp"
+          loading="eager"
+          class="absolute inset-4 w-[calc(100%-32px)] h-[calc(100%-32px)] rounded-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 z-10"
+        />
+      </div>
+      
+      <div class="text-center z-10">
+        <p class="text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">{t.hero.status}</p>
+        <div class="flex items-center gap-2 bg-emerald-500/10 text-emerald-500 px-4 py-1.5 rounded-full border border-emerald-500/20">
+          <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_#10b981]"></span>
+          <span class="text-xs font-bold uppercase tracking-wider">{t.hero.systemOnline}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions/Status Tile -->
+    <div class="md:col-span-1 glass rounded-3xl p-8 flex flex-col justify-between reveal [transition-delay:200ms] group overflow-hidden relative">
+      <div class="absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity">
+        <i class="ti ti-activity text-6xl text-brand-cyan"></i>
+      </div>
+      
+      <div>
+        <h3 class="text-xl font-bold mb-2 font-heading">{t.hero.supportMetrics}</h3>
+        <p class="text-sm text-gray-400 mb-6">{t.hero.realTimeIndicators}</p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex justify-between items-end">
+          <span class="text-xs text-gray-500 uppercase font-bold">{t.hero.uptime}</span>
+          <span class="text-2xl font-bold text-brand-cyan font-heading">99.9%</span>
+        </div>
+        <div class="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
+          <div class="bg-brand-cyan h-full w-[99.9%] shadow-[0_0_10px_#00F0FF]"></div>
+        </div>
+        
+        <div class="flex justify-between items-end">
+          <span class="text-xs text-gray-500 uppercase font-bold">{t.hero.responseTime}</span>
+          <span class="text-2xl font-bold text-brand-indigo font-heading">&lt; 15m</span>
+        </div>
+        <div class="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
+          <div class="bg-brand-indigo h-full w-[85%] shadow-[0_0_10px_#6600FF]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social/Quick Action Tile -->
+    <div class="md:col-span-1 glass rounded-3xl p-6 flex flex-col items-center justify-center gap-4 reveal [transition-delay:300ms]">
+      <div class="grid grid-cols-2 gap-3 w-full">
+        <a href="#proyectos" class="glass-button glow-cyan h-16 !px-0">
+          <i class="ti ti-layout-dashboard text-xl"></i>
+        </a>
+        <a href={`${base}/cv.pdf`} download class="glass-button bg-brand-cyan/10 border-brand-cyan/20 text-brand-cyan h-16 !px-0">
+          <i class="ti ti-file-download text-xl"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/ivan-raul-mesco-benavente/" target="_blank" class="glass-button h-16 !px-0">
+          <i class="ti ti-brand-linkedin text-xl"></i>
+        </a>
+        <a href="https://github.com/Ivanshito138" target="_blank" class="glass-button h-16 !px-0">
+          <i class="ti ti-brand-github text-xl"></i>
+        </a>
+      </div>
+      
+      <a href="#contacto" class="w-full bg-white text-void py-4 rounded-xl font-bold text-center hover:bg-brand-cyan transition-colors duration-300 uppercase tracking-widest text-xs">
         {t.hero.contactMe}
       </a>
     </div>
+
   </div>
 </section>
+
+<style>
+  /* Local typing animation if not in global */
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  .animate-typing {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 3.5s steps(40, end) infinite alternate;
+  }
+</style>

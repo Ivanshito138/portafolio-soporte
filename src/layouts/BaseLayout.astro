@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { ClientRouter } from 'astro:transitions';
 import { translations, type Lang } from '../data/translations.ts';
 import { portfolio } from '../data/portfolio.ts';
 import { portfolio as portfolioEn } from '../data/portfolio.en.ts';
@@ -155,12 +156,47 @@ const schema = {
     <link rel="dns-prefetch" href="https://github.com" />
 
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <ClientRouter />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/tabler-icons.min.css" />
   </head>
-  <body class="bg-gray-50 text-gray-800 dark:bg-gray-950 dark:text-gray-100 transition-colors">
+  <body class="bg-gray-50 text-gray-800 dark:bg-void dark:text-gray-100 transition-colors duration-300 overflow-x-hidden">
+    <!-- Background Glow Elements -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+      <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-brand-cyan/20 blur-[120px] rounded-full"></div>
+      <div class="absolute top-[20%] -right-[5%] w-[30%] h-[50%] bg-brand-indigo/20 blur-[120px] rounded-full"></div>
+      <div class="absolute -bottom-[10%] left-[20%] w-[50%] h-[30%] bg-brand-cyan/10 blur-[120px] rounded-full"></div>
+    </div>
+
     <Header name={name} lang={lang} t={t} />
     <main>
       <slot />
     </main>
     <Footer name={name} t={t} />
+
+    <script>
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      }, observerOptions);
+
+      // Function to observe elements
+      const observeElements = () => {
+        const revealElements = document.querySelectorAll('.reveal');
+        revealElements.forEach(el => observer.observe(el));
+      };
+
+      // Run on initial load and after view transitions
+      observeElements();
+      document.addEventListener('astro:after-swap', observeElements);
+    </script>
   </body>
 </html>

@@ -5,46 +5,100 @@ interface Props {
 }
 
 const { skills, t } = Astro.props;
+
+// Mapping icons to technical skills
+const skillIcons: Record<string, string> = {
+  "Windows 10/11": "brand-windows",
+  "Linux (Ubuntu, CentOS)": "brand-ubuntu",
+  "Active Directory": "hierarchy-2",
+  "Redes TCP/IP": "network",
+  "Office 365 / Microsoft 365": "brand-office",
+  "Ticketing (Jira, ServiceNow)": "ticket",
+  "Virtualización (VMware, Hyper-V)": "server-2",
+  "PowerShell / Bash": "terminal-2",
+  "Hardware (ensamblaje/reparación)": "cpu",
+  "Copias de seguridad y recuperación": "database-export",
+};
 ---
 
-<section id="habilidades" class="py-20 bg-gray-50 dark:bg-gray-900">
+<section id="habilidades" class="py-32 relative overflow-hidden">
+  <!-- Topography Background -->
+  <div class="absolute inset-0 -z-10 opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
+    <img src="https://cdn.jsdelivr.net/npm/game-icons-transparent@latest/svgs/lord-berandas/diagram.svg" class="w-full h-full object-cover" />
+  </div>
+
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white font-heading">{t.skills.title}</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-      <div>
-        <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200 font-heading">{t.skills.technical}</h3>
-        <div class="space-y-4">
-          {skills.technical.map((skill) => (
-            <div>
-              <div class="flex justify-between mb-1">
-                <span class="font-medium text-gray-700 dark:text-gray-300">{skill.name}</span>
-                <span class="text-gray-500 dark:text-gray-400">{skill.level}%</span>
+    <div class="text-center mb-20 reveal">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 font-heading">{t.skills.title}</h2>
+      <div class="w-24 h-1.5 bg-gradient-to-r from-brand-cyan to-brand-indigo mx-auto rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Technical Skills - Grid of Badges -->
+      <div class="lg:col-span-2 space-y-8">
+        <div class="flex items-center gap-4 mb-8 reveal">
+          <div class="p-3 glass rounded-xl text-brand-cyan">
+            <i class="ti ti-tools text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold font-heading">{t.skills.technical}</h3>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {skills.technical.map((skill, index) => (
+            <div 
+              class="glass p-4 md:p-6 rounded-3xl flex flex-col items-center justify-center text-center group hover:glow-cyan transition-all duration-500 reveal min-h-[12rem] md:min-h-[14rem]"
+              style={`transition-delay: ${index * 50}ms`}
+            >
+              <div class="w-12 h-12 glass rounded-2xl flex items-center justify-center mb-4 group-hover:bg-brand-cyan/20 transition-colors shrink-0">
+                <i class={`ti ti-${skillIcons[skill.name] || 'settings'} text-2xl text-brand-cyan`}></i>
               </div>
-              <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                <div
-                  class="bg-blue-600 dark:bg-blue-500 h-2.5 rounded-full transition-all"
+              <p class="text-[10px] md:text-xs font-bold uppercase tracking-wider mb-2 text-gray-400 leading-tight break-words w-full">
+                {skill.name}
+              </p>
+              
+              <!-- Mini Progress Circle or Line -->
+              <div class="w-full h-1 bg-white/5 rounded-full mt-auto overflow-hidden shrink-0">
+                <div 
+                  class="bg-brand-cyan h-full rounded-full group-hover:shadow-[0_0_8px_#00F0FF] transition-all duration-1000" 
                   style={`width: ${skill.level}%`}
-                  role="progressbar"
-                  aria-valuenow={skill.level}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-label={`${skill.name}: ${skill.level}%`}
                 ></div>
               </div>
+              <span class="text-[10px] text-gray-500 mt-1 font-mono shrink-0">{skill.level}%</span>
             </div>
           ))}
         </div>
       </div>
-      <div>
-        <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200 font-heading">{t.skills.soft}</h3>
+
+      <!-- Soft Skills - List of Glowing Pills -->
+      <div class="lg:col-span-1 glass p-8 md:p-10 rounded-[2.5rem] reveal [transition-delay:200ms] h-fit sticky top-32">
+        <div class="flex items-center gap-4 mb-10">
+          <div class="p-3 glass rounded-xl text-brand-indigo">
+            <i class="ti ti-users text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold font-heading">{t.skills.soft}</h3>
+        </div>
+
         <div class="flex flex-wrap gap-3">
           {skills.soft.map((skill) => (
-            <span class="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-full font-medium">
-              {skill}
-            </span>
+            <div class="group relative">
+              <div class="absolute -inset-0.5 bg-gradient-to-r from-brand-cyan to-brand-indigo rounded-xl blur opacity-0 group-hover:opacity-40 transition duration-500"></div>
+              <div class="relative glass px-5 py-3 rounded-xl text-sm font-medium hover:text-white transition-colors flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-brand-indigo rounded-full"></span>
+                {skill}
+              </div>
+            </div>
           ))}
         </div>
+
+        <!-- Extra Info Card inside Soft Skills -->
+        <div class="mt-12 p-6 rounded-2xl border border-white/5 bg-brand-indigo/5">
+          <p class="text-xs text-gray-400 italic leading-relaxed">
+            "{t.skills.quote}"
+          </p>
+        </div>
       </div>
+
     </div>
   </div>
 </section>

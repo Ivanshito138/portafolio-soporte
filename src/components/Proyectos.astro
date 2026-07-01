@@ -5,26 +5,124 @@ interface Props {
 }
 
 const { projects, t } = Astro.props;
+
+const projectImages = [
+  "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?crop=entropy&cs=srgb&fm=jpg&q=85", // Windows 11
+  "https://images.unsplash.com/photo-1756388043288-e60ba1390155?crop=entropy&cs=srgb&fm=jpg&q=85", // Ticketing
+  "https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?crop=entropy&cs=srgb&fm=jpg&q=85", // Redes
+  "https://images.unsplash.com/photo-1504639725590-34d0984388bd?crop=entropy&cs=srgb&fm=jpg&q=85", // Scripting
+];
 ---
 
-<section id="proyectos" class="py-20 bg-white dark:bg-gray-900">
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white font-heading">{t.projects.title}</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {projects.map((project) => (
-        <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 hover:shadow-lg dark:shadow-gray-700/30 transition-shadow border border-gray-100 dark:border-gray-700">
-          <h3 class="text-xl font-semibold mb-3 text-gray-800 dark:text-gray-200 font-heading">{project.title}</h3>
-          <p class="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
-          <p class="text-blue-600 dark:text-blue-400 font-semibold text-sm mb-4">{project.metrics}</p>
-          <div class="flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <span class="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-sm">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      ))}
+<section id="proyectos" class="py-32 relative">
+  <div class="max-w-6xl mx-auto px-4 mb-16 flex flex-col md:flex-row justify-between items-center gap-6 reveal">
+    <div class="max-w-xl">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 font-heading">{t.projects.title}</h2>
+      <p class="text-gray-400">{t.projects.subtitle}</p>
+    </div>
+    <div class="flex gap-4">
+      <div class="p-3 glass rounded-full text-gray-400 hover:text-brand-cyan transition-colors cursor-pointer" id="prev-project">
+        <i class="ti ti-arrow-left text-xl"></i>
+      </div>
+      <div class="p-3 glass rounded-full text-gray-400 hover:text-brand-cyan transition-colors cursor-pointer" id="next-project">
+        <i class="ti ti-arrow-right text-xl"></i>
+      </div>
     </div>
   </div>
+
+  <div class="max-w-6xl mx-auto px-4">
+    <div 
+      id="project-container"
+      class="flex gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-12"
+    >
+    {projects.map((project, index) => (
+      <div class="min-w-[85vw] md:min-w-[45rem] snap-center">
+        <div class="glass h-[32rem] rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row group reveal" style={`transition-delay: ${index * 100}ms`}>
+          
+          <!-- Image Section -->
+          <div class="w-full md:w-1/2 h-48 md:h-full relative overflow-hidden">
+            <div class="absolute inset-0 bg-brand-indigo/20 mix-blend-overlay group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+            <img 
+              src={projectImages[index] || projectImages[0]} 
+              alt={project.title} 
+              class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" 
+            />
+            <div class="absolute bottom-4 left-4 z-20">
+              <span class="glass px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] bg-void/60 text-brand-cyan border-brand-cyan/30">
+                {t.projects.caseStudy} #0{index + 1}
+              </span>
+            </div>
+          </div>
+
+          <!-- Content Section -->
+          <div class="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-between">
+            <div>
+              <div class="flex flex-wrap gap-2 mb-6">
+                {project.tags.map((tag) => (
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-brand-indigo bg-brand-indigo/10 px-3 py-1 rounded-lg border border-brand-indigo/20">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <h3 class="text-2xl md:text-3xl font-bold mb-4 font-heading group-hover:text-brand-cyan transition-colors">
+                {project.title}
+              </h3>
+              <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                {project.description}
+              </p>
+            </div>
+
+            <div class="space-y-6">
+              <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
+                <p class="text-[10px] text-gray-500 uppercase font-bold mb-2 tracking-widest">{t.projects.metrics}</p>
+                <p class="text-sm font-semibold text-brand-cyan font-mono">{project.metrics}</p>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase text-gray-500 tracking-widest">{t.projects.detailView}</span>
+                <div class="w-12 h-12 glass rounded-full flex items-center justify-center group-hover:bg-brand-cyan group-hover:text-void transition-all duration-300">
+                  <i class="ti ti-external-link text-xl"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    ))}
+  </div>
+  </div>
 </section>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
+<script>
+  function setupProjectScroll() {
+    const container = document.getElementById('project-container');
+    const prevBtn = document.getElementById('prev-project');
+    const nextBtn = document.getElementById('next-project');
+
+    if (!container || !prevBtn || !nextBtn) return;
+
+    const scrollAmount = 600;
+
+    nextBtn.addEventListener('click', () => {
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+
+    prevBtn.addEventListener('click', () => {
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+  }
+
+  setupProjectScroll();
+  document.addEventListener('astro:after-swap', setupProjectScroll);
+</script>
