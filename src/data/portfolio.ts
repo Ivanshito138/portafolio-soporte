@@ -1,7 +1,7 @@
 export const portfolio = {
   name: "Iván Raúl Mesco Benavente",
   title: "Analista de Soporte Técnico",
-  tagline: "Resolviendo problemas tecnológicos con más de 3 años de experiencia",
+  tagline: "Resolviendo problemas tecnológicos.",
   about: {
     paragraph1: "Profesional de TI con más de 3 años de experiencia en soporte técnico, resolución de incidencias y atención al cliente. Especializado en diagnóstico de problemas de hardware y software, administración de redes y sistemas operativos.",
     paragraph2: "Apasionado por la tecnología y comprometido con brindar soluciones eficientes que mejoren la productividad de los usuarios. Experiencia comprobada en entornos corporativos y soporte remoto/presencial.",

@@ -1,7 +1,7 @@
 export const portfolio = {
   name: "Iván Raúl Mesco Benavente",
   title: "Technical Support Analyst",
-  tagline: "Solving technology problems with over 3 years of experience",
+  tagline: "Solving technology problems.",
   about: {
     paragraph1: "IT professional with over 3 years of experience in technical support, incident resolution, and customer service. Specialized in diagnosing hardware and software issues, network administration, and operating systems.",
     paragraph2: "Passionate about technology and committed to providing efficient solutions that improve user productivity. Proven experience in corporate environments and remote/onsite support.",

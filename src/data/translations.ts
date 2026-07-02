@@ -77,7 +77,7 @@ export const translations = {
       goHome: 'Volver al inicio',
     },
     meta: {
-      description: 'Portafolio de Iván Raúl Mesco Benavente, Analista de Soporte Técnico. Resolviendo problemas tecnológicos con más de 3 años de experiencia',
+      description: 'Portafolio de Iván Raúl Mesco Benavente, Analista de Soporte Técnico. Resolviendo problemas tecnológicos.',
       keywords: 'soporte técnico, analista de soporte, técnico en TI, help desk, Lima, Perú, Iván Raúl Mesco Benavente, servicio técnico, administración de redes, Microsoft 365, Active Directory',
     },
   },
@@ -159,7 +159,7 @@ export const translations = {
       goHome: 'Go back home',
     },
     meta: {
-      description: 'Portfolio of Iván Raúl Mesco Benavente, Technical Support Analyst. Solving technology problems with over 3 years of experience',
+      description: 'Portfolio of Iván Raúl Mesco Benavente, Technical Support Analyst. Solving technology problems.',
       keywords: 'technical support, IT support analyst, help desk, Lima Peru, Iván Raúl Mesco Benavente, network administration, Microsoft 365, Active Directory, troubleshooting',
     },
   },
