@@ -29,7 +29,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       
       <div class="flex items-center gap-2 text-xl text-gray-400 font-mono">
         <span class="text-brand-cyan font-bold">></span>
-        <p>{tagline}</p>
+        <p class="animate-typing border-r-2 border-brand-cyan pr-1">{tagline}</p>
       </div>
     </div>
 
@@ -115,4 +115,18 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   </div>
 </section>
+
+<style>
+  @keyframes typing {
+    from { max-width: 0 }
+    to { max-width: 60ch }
+  }
+
+  .animate-typing {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 2.5s steps(40, end) infinite alternate;
+  }
+</style>
 
