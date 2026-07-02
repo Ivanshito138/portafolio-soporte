@@ -35,7 +35,7 @@ const { email, phone, location, linkedin, github, t } = Astro.props;
             <div class="space-y-8">
               <div class="group reveal">
                 <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Email</p>
-                <a href={`mailto:${email}`} class="text-base md:text-lg lg:text-xl font-bold text-white hover:text-brand-cyan transition-colors flex items-center gap-3 break-all">
+                <a href={`mailto:${email}`} class="text-xs md:text-sm lg:text-base font-bold text-white hover:text-brand-cyan transition-colors flex items-center gap-3 whitespace-nowrap">
                   <i class="ti ti-mail text-brand-cyan shrink-0"></i>
                   {email}
                 </a>
